@@ -5,13 +5,15 @@
   "scripts": {
     "start": "node ./bin/www",
     "cluster": "node ./bin/cluster",
-    "dev": "cross-env DEBUG=bakend-project:* nodemon"
+    "dev": "cross-env DEBUG=bakend-project:* nodemon",
+    "init-db": "node init-db.js"
   },
   "dependencies": {
     "connect-mongo": "^4.6.0",
     "cookie-parser": "~1.4.4",
     "cross-env": "^7.0.3",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-session": "^1.17.2",

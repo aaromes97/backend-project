@@ -4,14 +4,14 @@
  * Module dependencies.
  */
 
-
+require('dotenv').config();
 var debug = require('debug')('backend-project:server');
 var http = require('http');
 const cluster = require('cluster');
 const os = require('os');
 
 
-/** Verificamos si es el Master o es un clon */
+/** Verificamos si es el Master o es un worker */
 if (cluster.isMaster) {
   console.log('Arrancando master');
 
@@ -26,7 +26,9 @@ if (cluster.isMaster) {
   });
 
   cluster.on('exit', (worker, code, signal) => {
-    console.log(`Worker ${worker.id} con el pid ${worker.process.pid} ha terminado con code =${code} y signal = ${signal}`)
+    console.log(`Worker ${worker.id} con el pid ${worker.process.pid} ha terminado con code =${code} y signal = ${signal}`);
+    console.log('Arranco un nuevo worker');
+    cluster.fork();
   })
 
 } else {
