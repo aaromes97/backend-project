@@ -11,7 +11,11 @@ const anuncioSchema = mongoose.Schema({
   autor: String,
   tags: [String],
 });
+anuncioSchema.statics.lista = function (request) {
+  const query = Anuncio.find(request);
 
+  return query.exec();
+};
 const Anuncio = mongoose.model("Anuncio", anuncioSchema);
 
 module.exports = Anuncio;

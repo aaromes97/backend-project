@@ -8,18 +8,18 @@ const bodyParser = require("body-parser");
 //const LoginController = require("./controllers/loginController");
 //const jwtAuth = require("./lib/jwtAuthMiddleware");
 const MongoStore = require("connect-mongo");
+var indexRouter = require("./routes/index");
 
 const cors = require("cors");
 
 /* jshint ignore:start */
-const db = require("./lib/connectMongoose");
+require("./lib/connectMongoose");
 /* jshint ignore:end */
 
 // Cargamos las definiciones de todos nuestros modelos
 //require("./models/Usuario");
 
 const app = express();
-var indexRouter = require("./routes/index");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Rutas Website
 //const loginController = new LoginController();
 app.use("/", indexRouter);
-
+app.use("/anuncios", indexRouter);
 // API
 //app.post('/api/authenticate', loginController.postJWT);
 
