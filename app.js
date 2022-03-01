@@ -41,14 +41,10 @@ const loginController = new LoginController();
 // API
 app.post("/api/authenticate", loginController.postJWT);
 
+app.use("/anuncios", indexRouter);
+app.use("/", indexRouter);
 app.use(function (req, res, next) {
   const err = new Error("Not Found");
-
-  // Rutas Website
-  //const loginController = new LoginController();
-  app.use("/", indexRouter);
-  app.use("/anuncios", indexRouter);
-
   // catch 404 and forward to error handler
   err.status = 404;
   next(err);
