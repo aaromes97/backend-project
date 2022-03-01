@@ -3,10 +3,6 @@ var router = express.Router();
 const Anuncio = require("../models/Anuncio");
 
 /* GET home page. */
-<<<<<<< HEAD
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Welcome to Backend Wallatrox' });
-=======
 router.get("/", async (req, res, next) => {
   try {
     const nombre = req.query.nombre;
@@ -40,9 +36,6 @@ router.get("/", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
->>>>>>> origin/index
 });
-
-
 
 module.exports = router;
