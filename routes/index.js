@@ -37,5 +37,17 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+router.post("/", async (req, res, next) => {
+  try {
+    const anuncioData = req.body;
 
+    const anuncio = new Anuncio(anuncioData);
+
+    const anuncioCreado = await anuncio.save();
+
+    res.status(201).json({ result: anuncioCreado });
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
