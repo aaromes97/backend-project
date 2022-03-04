@@ -15,7 +15,7 @@ class LoginController {
             });
             //si no lo encuentro o no coincide la contraseña ---> error
             if (!usuario || !(await usuario.comparePassword(password))) { 
-                res.json({ error: 'Invalid Credentials' });
+                res.status(401).send('No autorizado');
                 return;
             }
             // si el usuario existe y valida la contraseña

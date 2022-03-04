@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const LoginController = require('./controllers/loginController');
 const jwtAuth = require('./lib/jwtAuthMiddleware');
 const MongoStore = require('connect-mongo');
-
 const cors = require('cors');
+var indexRouter = require("./routes/index");
 
 
 
@@ -50,6 +50,14 @@ const loginController = new LoginController();
 
 // API 
 app.post('/api/authenticate', loginController.postJWT);
+app.use("/anuncios", indexRouter);
+app.use("/", indexRouter);
+app.use(function (req, res, next) {
+  const err = new Error("Not Found");
+  // catch 404 and forward to error handler
+  err.status = 404;
+  next(err);
+});
 
 
 

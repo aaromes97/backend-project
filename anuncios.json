@@ -1,0 +1,40 @@
+{
+    "anuncios": [
+        {
+            "nombre": "Bicicleta",
+            "venta": true,
+            "precio": 50,
+            "foto": "/images/anuncios/example.jpg",
+            "descripcion": "Vendo una bicicleta en buen estado comprada a principios del año pasado.",
+            "autor": "@duenas",
+            "tags": [
+                "sport",
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "Bicicleta",
+            "venta": false,
+            "precio": 100,
+            "foto": "/images/anuncios/example.jpg",
+            "descripcion": "Vendo una bicicleta en buen estado comprada a principios del año pasado.",
+            "autor": "@duenas",
+            "tags": [
+                "sport",
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "iPhone",
+            "venta": true,
+            "precio": 500,
+            "foto": "/images/anuncios/example.jpg",
+            "descripcion": "Vendo un iPhone en buen estado comprada a principios del año pasado.",
+            "autor": "@duenas",
+            "tags": [
+                "mobile",
+                "lifestyle"
+            ]
+        }
+    ]
+}
