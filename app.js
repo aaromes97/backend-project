@@ -9,6 +9,8 @@ const LoginController = require("./controllers/loginController");
 const jwtAuth = require("./lib/jwtAuthMiddleware");
 const MongoStore = require("connect-mongo");
 const cors = require("cors");
+const forgotPassword = require("./routes/forgotPassword");
+
 var indexRouter = require("./routes/index");
 /* jshint ignore:start */
 require("./lib/connectMongoose");
@@ -41,6 +43,8 @@ const loginController = new LoginController();
 // API
 app.post("/api/authenticate", loginController.postJWT);
 
+app.use("/forgot-password", forgotPassword);
+ 
 app.use("/anuncios", indexRouter);
 app.use("/", indexRouter);
 app.use(function (req, res, next) {
