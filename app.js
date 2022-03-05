@@ -39,8 +39,6 @@ const loginController = new LoginController();
 
 // API
 app.post("/api/authenticate", loginController.postJWT);
-
-
 app.use("/api", require("./routes/index"));
 app.use("/", require("./routes/index"));
 
@@ -50,7 +48,6 @@ app.use(function (req, res, next) {
   err.status = 404;
   next(err);
 });
-
 // error handler
 
 app.use(function (err, req, res, next) {
