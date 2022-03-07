@@ -17,8 +17,8 @@ async function main() {
 
 async function initAnuncios() {
   // elimino todos los documentos de la colección de anuncios
-  //const deleted = await Anuncio.deleteMany();
-  //console.log(`Eliminados ${deleted.deletedCount} anuncios.`);
+  const deleted = await Anuncio.deleteMany();
+  console.log(`Eliminados ${deleted.deletedCount} anuncios.`);
 
   // crear anuncios iniciales
   const anuncios = await Anuncio.insertMany(anuncioData.anuncios);
