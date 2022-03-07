@@ -10,6 +10,9 @@ const jwtAuth = require('./lib/jwtAuthMiddleware');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
 var indexRouter = require("./routes/index");
+const bcrycpt = require("bcrypt");
+const Usuario = require('./models/Usuario');
+
 
 
 
@@ -49,6 +52,17 @@ const loginController = new LoginController();
 
 
 // API 
+app.post('/api/register', (req, res) => {
+  const { email, password } = req.body;
+  const usuario = new Usuario({ email, password });
+  usuario.save(err => {
+    if (err) {
+      res.status(500).send('Error al resgistrar el usuario/ Usuario ya existente')
+    } else {
+      res.status(200).send('Usuario Registrado con exito');
+    }
+  })
+})
 app.post('/api/authenticate', loginController.postJWT);
 app.use("/anuncios", indexRouter);
 app.use("/", indexRouter);
