@@ -3,6 +3,9 @@ const bcrycpt = require('bcrypt');
 const saltRounds = 10;
 
 const UserSchema = new moongose.Schema({
+    name: {
+        type: String, require: true, unique:true
+    },
     email: {
         type: String, required: true, unique: true
     },

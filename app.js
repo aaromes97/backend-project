@@ -53,8 +53,8 @@ const loginController = new LoginController();
 
 // API 
 app.post('/api/register', (req, res) => {
-  const { email, password } = req.body;
-  const usuario = new Usuario({ email, password });
+  const { name, email, password } = req.body;
+  const usuario = new Usuario({ name, email, password });
   usuario.save(err => {
     if (err) {
       res.status(500).send('Error al resgistrar el usuario/ Usuario ya existente')

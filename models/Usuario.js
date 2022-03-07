@@ -6,6 +6,7 @@ const saltRounds = 10;
 
 //creo el esquema
 const usuarioSchema = mongoose.Schema({
+    name: {type: String, require:true, unique:true},
     email: { type: String, require:true, unique: true },
     password: String
 });

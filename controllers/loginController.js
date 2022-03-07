@@ -8,10 +8,10 @@ class LoginController {
     // post a /api/authenticate
     async postJWT(req, res, next) {
         try {
-            const { email, password } = req.body;
+            const { name, password } = req.body;
              //buscar el usuario en la base de datos
             const usuario = await Usuario.findOne({
-                email
+                name
             });
             //si no lo encuentro o no coincide la contraseña ---> error
             if (!usuario || !(await usuario.comparePassword(password))) { 
