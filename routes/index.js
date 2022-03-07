@@ -1,5 +1,15 @@
 var express = require("express");
 var router = express.Router();
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images/anuncios')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+const upload = multer({ storage: storage })
 const Anuncio = require("../models/Anuncio");
 
 /* GET home page. */
@@ -37,17 +47,43 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
-router.post("/", async (req, res, next) => {
+
+// POST /api/anuncios (body) -> completar en Postman | Multer
+// Crear un anuncio
+router.post('/', upload.single('foto'), async (req, res, next) => {
   try {
-    const anuncioData = req.body;
-
-    const anuncio = new Anuncio(anuncioData);
-
-    const anuncioCreado = await anuncio.save();
+    const fotoPath = '/images/anuncios/' + req.file.originalname;
+    const anunciosData = { ...req.body, foto: fotoPath };
+    const anuncio = new Anuncio(anunciosData);
+    const anuncioCreado = await anuncio.save(); // creamos anuncio en la BBDD
 
     res.status(201).json({ result: anuncioCreado });
+
+    // // crear miniatura
+    // requester.send({
+    //   type: 'thumbnail',
+    //   url: req.file.path,
+    //   name: req.file.originalname,
+    // }, resultado => {
+    //   console.log('publisher obtiene resultado: ', resultado);
+    // })
+
   } catch (err) {
     next(err);
   }
 });
+
+// router.post("/", async (req, res, next) => {
+//   try {
+//     const anuncioData = req.body;
+
+//     const anuncio = new Anuncio(anuncioData);
+
+//     const anuncioCreado = await anuncio.save();
+
+//     res.status(201).json({ result: anuncioCreado });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 module.exports = router;

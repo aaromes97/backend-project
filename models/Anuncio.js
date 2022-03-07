@@ -10,6 +10,7 @@ const anuncioSchema = mongoose.Schema({
   precio: Number,
   autor: String,
   tags: [String],
+  fecha: { type: Date, default: Date.now },
 });
 anuncioSchema.statics.lista = function (request) {
   const query = Anuncio.find(request);
