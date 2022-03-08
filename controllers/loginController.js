@@ -15,7 +15,7 @@ class LoginController {
             });
             //si no lo encuentro o no coincide la contraseña ---> error
             if (!usuario || !(await usuario.comparePassword(password))) { 
-                res.status(401).send('No autorizado');
+                res.status(401).json({message: 'Usuario o contraseña erronea'});
                 return;
             }
             // si el usuario existe y valida la contraseña
