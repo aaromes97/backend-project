@@ -59,31 +59,9 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
 
     res.status(201).json({ result: anuncioCreado });
 
-    // // crear miniatura
-    // requester.send({
-    //   type: 'thumbnail',
-    //   url: req.file.path,
-    //   name: req.file.originalname,
-    // }, resultado => {
-    //   console.log('publisher obtiene resultado: ', resultado);
-    // })
-
   } catch (err) {
     next(err);
   }
 });
 
-// router.post("/", async (req, res, next) => {
-//   try {
-//     const anuncioData = req.body;
-
-//     const anuncio = new Anuncio(anuncioData);
-
-//     const anuncioCreado = await anuncio.save();
-
-//     res.status(201).json({ result: anuncioCreado });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
 module.exports = router;
