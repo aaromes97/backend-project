@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "cluster": "node ./bin/cluster",
     "dev": "cross-env DEBUG=bakend-project:* nodemon",
-    "init-db": "node init-db.js"
+    "init-db": "node init-db.js",
+    "init-anuncios": "node anunciosInitDB.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

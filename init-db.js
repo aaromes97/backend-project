@@ -21,10 +21,12 @@ async function initUsuarios() {
     //insertamos Usuarios de prueba
     const result = await Usuario.insertMany([
         {
+            name: 'prueba1',
             email: 'admin@example.com',
             password: await Usuario.hashPassword('1234')
         },
-        {
+        {   
+            name:'prueba2',
             email: 'user@example.com',
             password: await Usuario.hashPassword('5678')
         }
