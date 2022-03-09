@@ -11,9 +11,6 @@ const MongoStore = require("connect-mongo");
 const cors = require("cors");
 const forgotPassword = require("./routes/forgotPassword");
 var indexRouter = require("./routes/index");
-'use strict';
-const cors = require('cors');
-var indexRouter = require("./routes/index");
 const bcrycpt = require("bcrypt");
 const Usuario = require('./models/Usuario');
 
