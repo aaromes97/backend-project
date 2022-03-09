@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({ storage: storage })
+const ObjectId = require('mongodb').ObjectId;
 const Anuncio = require("../models/Anuncio");
 
 /* GET home page. */
@@ -48,7 +49,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// POST /api/anuncios (body) -> completar en Postman | Multer
+// POST /api (body) -> completar en Postman | Multer
 // Crear un anuncio
 router.post('/', upload.single('foto'), async (req, res, next) => {
   try {
@@ -63,5 +64,16 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
     next(err);
   }
 });
+
+//GET /api/id
+router.get('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.params;
+    await Anuncio.find({ _id: new ObjectId(_id) })
+    res.json();
+  } catch (err) {
+    next(err);
+  }
+})
 
 module.exports = router;
