@@ -65,7 +65,7 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
   }
 });
 
-//GET /api/id
+//GET /api/nombre-ID
 router.get('/:id', async (req, res, next) => {
   try {
     const _id = req.params.params;
