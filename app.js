@@ -9,6 +9,17 @@ const LoginController = require("./controllers/loginController");
 const jwtAuth = require("./lib/jwtAuthMiddleware");
 const MongoStore = require("connect-mongo");
 const cors = require("cors");
+const forgotPassword = require("./routes/forgotPassword");
+var indexRouter = require("./routes/index");
+const bcrycpt = require("bcrypt");
+const Usuario = require('./models/Usuario');
+
+
+
+
+
+
+
 /* jshint ignore:start */
 require("./lib/connectMongoose");
 /* jshint ignore:end */
@@ -42,6 +53,33 @@ app.post("/api/authenticate", loginController.postJWT);
 app.use("/api", require("./routes/index"));
 app.use("/", require("./routes/index"));
 
+app.use("/forgot-password", forgotPassword);
+
+// API 
+app.post('/api/register', (req, res) => {
+  const { name, email, password } = req.body;
+  const usuario = new Usuario({ name, email, password });
+  usuario.save(err => {
+    if (err) {
+      res.status(500).json({message: 'Error al resgistrar el usuario/ Usuario ya existente'})
+    } else {
+      res.status(200).json({message: 'Usuario Registrado con exito'});
+    }
+  })
+})
+app.post('/api/authenticate', loginController.postJWT);
+app.use("/anuncios", indexRouter);
+app.use("/", indexRouter);
+app.use(function (req, res, next) {
+  const err = new Error("Not Found");
+  // catch 404 and forward to error handler
+  err.status = 404;
+  next(err);
+});
+
+
+
+// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   const err = new Error("Not Found");
   // catch 404 and forward to error handler
