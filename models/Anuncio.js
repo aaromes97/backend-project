@@ -9,7 +9,7 @@ const anuncioSchema = mongoose.Schema({
   venta: Boolean,
   precio: Number,
   autor: String,
-  tags: [String],
+  tags: [],
   fecha: { type: Date, default: Date.now },
 });
 anuncioSchema.statics.lista = function (request) {
