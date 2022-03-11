@@ -66,7 +66,7 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
 });
 
 //GET /api/nombre-Id
-router.get('/:name-id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const _id = req.params.params;
     await Anuncio.find({ _id: new ObjectId(_id) })
