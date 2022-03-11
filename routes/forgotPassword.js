@@ -106,7 +106,7 @@ router.post('/', (req, res, next)  => {
 							service: "gmail",
 							auth: {
 								user: "clonepop2022@gmail.com",
-								pass: ""
+								pass: "Clone2022"
 							},
 						});
 						var mailOptions = {
