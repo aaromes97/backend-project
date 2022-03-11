@@ -65,12 +65,12 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
   }
 });
 
-//GET /api/nombre-Id
+//GET /api/Id
 router.get('/:id', async (req, res, next) => {
   try {
-    const _id = req.params.params;
-    await Anuncio.find({ _id: new ObjectId(_id) })
-    res.json();
+    const _id = req.params.id;
+    const anuncio = await Anuncio.find({ _id: new ObjectId(_id) });
+    res.json({ results: anuncio });
   } catch (err) {
     next(err);
   }
