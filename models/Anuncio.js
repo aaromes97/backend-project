@@ -9,6 +9,8 @@ const anuncioSchema = mongoose.Schema({
   venta: Boolean,
   precio: Number,
   autor: String,
+  vendido: Boolean,
+  reservado: Boolean,
   tags: [],
   fecha: { type: Date, default: Date.now },
 });
