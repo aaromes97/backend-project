@@ -99,7 +99,6 @@ router.put('/:id', async (req, res, next) => {
     res.json({ result: anuncioActualizado });
   } catch (err) {
     next(err);
-
   }
 })
 
