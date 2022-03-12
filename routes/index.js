@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({ storage: storage })
-const ObjectId = require('mongodb').ObjectId;
+// const ObjectId = require('mongodb').ObjectId;
 const Anuncio = require("../models/Anuncio");
 
 /* GET home page. */
@@ -65,14 +65,40 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
   }
 });
 
-//GET /api/Id
+//GET /api/id
 router.get('/:id', async (req, res, next) => {
   try {
     const _id = req.params.id;
-    const anuncio = await Anuncio.find({ _id: new ObjectId(_id) });
+    const anuncio = await Anuncio.find({ _id: _id });
     res.json({ results: anuncio });
   } catch (err) {
     next(err);
+  }
+})
+
+//DELETE /api/id
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.id;
+    await Anuncio.deleteOne({ _id: _id })
+    res.json({ deleted: "OK" });
+  } catch (err) {
+    next(err);
+  }
+})
+
+//PUT /api/id
+router.put('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.id;
+    const anunciosData = req.body;
+    const anuncioActualizado = await Anuncio.findOneAndUpdate({ _id: _id }, anunciosData, {
+      new: true //si no lo ponemos nos devuelve el dato sin actualizar
+    })
+    res.json({ result: anuncioActualizado });
+  } catch (err) {
+    next(err);
+
   }
 })
 
