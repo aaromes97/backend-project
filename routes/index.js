@@ -53,7 +53,8 @@ router.get("/", async (req, res, next) => {
 router.post('/', upload.single('foto'), async (req, res, next) => {
   try {
     const fotoPath = '/images/anuncios/' + req.file.originalname;
-    const anunciosData = { ...req.body, foto: fotoPath };
+    const tags = req.body.tags.split(",")
+    const anunciosData = { ...req.body, foto: fotoPath, tags };
     const anuncio = new Anuncio(anunciosData);
     const anuncioCreado = await anuncio.save(); // creamos anuncio en la BBDD
 
