@@ -6,6 +6,7 @@ const { Usuario } = require('../models');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 router.get('/check', (req, res, next)  => {
 	try{
@@ -37,7 +38,7 @@ router.get('/check', (req, res, next)  => {
 
 router.post('/reset', (req, res, next)  => {
 	try {
-		if(req.query.id !== undefined && req.body.email !== undefined && req.body.password !== undefined) {
+		if(req.query.id !== undefined && req.body.password !== undefined) {
 			jwt.verify(req.query.id, process.env.JWT_SECRET, {
 				algorithm: "HS256"
 			}, (err, decoded2) => {
@@ -47,7 +48,7 @@ router.post('/reset', (req, res, next)  => {
 					});
 				} else {
 					Usuario.findOne({
-						email: req.body.email
+						token: req.body.id
 					}, (err, user) => {
 						if(user) {
 							if(bcrypt.compareSync(req.body.password, user.password) == true) {
@@ -55,7 +56,7 @@ router.post('/reset', (req, res, next)  => {
 									message: 'Key exists already'
 								});
 							} else {
-								const hash = bcrypt.hashSync(req.body.password, 5);
+								const hash = bcrypt.hashSync(req.body.password, saltRounds,7);
 
 								Usuario.updateOne({ _id: user._id }, { $set: { password: hash }
 								}, (err, updated) => {
@@ -72,7 +73,7 @@ router.post('/reset', (req, res, next)  => {
 							}
 						} else {
 							res.status(404).json({
-								message: 'User does not exists'
+								message: 'No valid token'
 							});
 						}
 					});
@@ -101,43 +102,51 @@ router.post('/', (req, res, next)  => {
 					if (err) {
 						next(err)
 					} else {
+						Usuario.updateOne({ _id: data._id }, { $set: { token: jwtToken }
+						}, (err, updated) => {
+							if(updated) {
 
-						let transporter = nodemailer.createTransport({
-							service: "gmail",
-							auth: {
-								user: "clonepop2022@gmail.com",
-								pass: ""
-							},
-						});
-						var mailOptions = {
-							from: 'clonepop2022@gmail.com',
-							to: req.body.email,
-							subject: 'Reset your password from ClonePop',
-							text: 'To reset your password, please, hit the following link:\n' +
-							'http://localhost:3001/forgot-password/check/?id=' + jwtToken
-						};
-						transporter.sendMail(mailOptions, function(error, info){
-							if (error){
+								let transporter = nodemailer.createTransport({
+									service: "gmail",
+									auth: {
+										user: "clonepop2022@gmail.com",
+										pass: ""
+									},
+								});
+								var mailOptions = {
+									from: 'clonepop2022@gmail.com',
+									to: req.body.email,
+									subject: 'Reset your password from ClonePop',
+									text: 'To reset your password, please, hit the following link:\n' +
+									'http://localhost:3000/forgot-password/check/?id=' + jwtToken
+								};
+								transporter.sendMail(mailOptions, function(error, info){
+									if (error){
+										res.status(404).json({
+											message: 'Mail was not sent'
+										});
+
+									} else {
+										res.status(200).json({
+											message: 'Email sent'
+										});
+									}
+								});
+							} else {
 								res.status(404).json({
 									message: 'Mail was not sent'
 								});
-
-							} else {
-								res.status(200).json({
-									message: 'Email sent'
-								});
 							}
 						});
-					}
-				})
-			} else {
-				res.status(404).json({
-					message: 'Invalid Credentials'
-				});
-			}});
-	} catch (err) {
-		next(err);
-	}
-});
+					}})
+				} else {
+					res.status(404).json({
+						message: 'Invalid Credentials'
+					});
+				}});
+		} catch (err) {
+			next(err);
+		}
+	});
 
-module.exports = router;
+		module.exports = router;

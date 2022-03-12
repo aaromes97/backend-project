@@ -47,7 +47,7 @@ app.post("/api/authenticate", loginController.postJWT);
 app.use("/api", require("./routes/index"));
 app.use("/", require("./routes/index"));
 
-app.use("/forgot-password", forgotPassword);
+app.use("/api/forgot-password", forgotPassword);
 
 // API
 app.post("/api/register", (req, res) => {
@@ -58,7 +58,7 @@ app.post("/api/register", (req, res) => {
       res
         .status(500)
         .json({
-          message: "Error al resgistrar el usuario/ Usuario ya existente",
+          message: "Error al registrar el usuario/ Usuario ya existente",
         });
     } else {
       res.status(200).json({ message: "Usuario Registrado con exito" });
