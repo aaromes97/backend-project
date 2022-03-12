@@ -8,11 +8,12 @@ const saltRounds = 10;
 const usuarioSchema = mongoose.Schema({
     name: {type: String, require:true, unique:true},
     email: { type: String, require:true, unique: true },
-    password: String
+    password: String,
+	token: String
 });
 
 usuarioSchema.statics.hashPassword = function (passwordEnClaro) {
-    return bcrycpt.hash(passwordEnClaro, 7);
+    return bcrycpt.hashSync(passwordEnClaro, 7);
 };
 
 usuarioSchema.methods.comparePassword = function (passwordEnClaro) {
