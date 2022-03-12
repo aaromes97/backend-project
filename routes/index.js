@@ -105,7 +105,6 @@ router.put('/:id', upload.single('foto'), async (req, res, next) => {
     res.json({ result: anuncioActualizado });
   } catch (err) {
     next(err);
-
   }
 })
 
