@@ -89,10 +89,16 @@ router.delete('/:id', async (req, res, next) => {
 })
 
 //PUT /api/id
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', upload.single('foto'), async (req, res, next) => {
   try {
+    let anunciosData;
     const _id = req.params.id;
-    const anunciosData = req.body;
+    if (req.file) {
+      const fotoPath = '/images/anuncios/' + req.file.originalname;
+      anunciosData = { ...req.body, foto: fotoPath };
+    } else {
+      anunciosData = req.body;
+    }
     const anuncioActualizado = await Anuncio.findOneAndUpdate({ _id: _id }, anunciosData, {
       new: true //si no lo ponemos nos devuelve el dato sin actualizar
     })
