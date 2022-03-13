@@ -44,7 +44,7 @@ const loginController = new LoginController();
 
 // API
 app.post("/api/authenticate", loginController.postJWT);
-app.use("/api", require("./routes/index"));
+app.use("/api/anuncios", require("./routes/index"));
 app.use("/", require("./routes/index"));
 
 app.use("/api/forgot-password", forgotPassword);
@@ -66,8 +66,6 @@ app.post("/api/register", (req, res) => {
   });
 });
 app.post("/api/authenticate", loginController.postJWT);
-app.use("/anuncios", indexRouter);
-app.use("/", indexRouter);
 app.use(function (req, res, next) {
   const err = new Error("Not Found");
   // catch 404 and forward to error handler
