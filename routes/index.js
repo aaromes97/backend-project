@@ -9,8 +9,8 @@ const storage = multer.diskStorage({
     cb(null, file.originalname)
   }
 })
-const upload = multer({ storage: storage })
 // const ObjectId = require('mongodb').ObjectId;
+const upload = multer({ storage: storage })
 const Anuncio = require("../models/Anuncio");
 
 /* GET home page. */
