@@ -44,7 +44,7 @@ const loginController = new LoginController();
 
 // API
 app.post("/api/authenticate", loginController.postJWT);
-app.use("/api", require("./routes/index"));
+app.use("/api/anuncios", require("./routes/index"));
 app.use("/", require("./routes/index"));
 
 app.use("/api/forgot-password", forgotPassword);
