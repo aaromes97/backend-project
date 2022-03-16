@@ -28,7 +28,7 @@ class LoginController {
                     return;
                 }
                 //devolver al cliente el token generado
-                res.json({ token: jwtToken, name : name });
+                res.json({ token: jwtToken, name : name, email: usuario.email, id: usuario.id });
                 
             })
 
