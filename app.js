@@ -123,5 +123,4 @@ app.use(function (err, req, res, next) {
 function isAPI(req) {
   return req.originalUrl.indexOf("/api") === 0;
 }
-
 module.exports = app;
