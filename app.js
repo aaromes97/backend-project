@@ -53,7 +53,7 @@ app.post("/api/authenticate", loginController.postJWT);
 app.use("/api", require("./routes/index"));
 app.use("/", require("./routes/index"));
 
-app.use("/forgot-password", forgotPassword);
+app.use("/api/forgot-password", forgotPassword);
 
 // API 
 app.post('/api/register', (req, res) => {
