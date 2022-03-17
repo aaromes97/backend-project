@@ -15,20 +15,27 @@ router.get('/check', (req, res, next)  => {
 				algorithm: "HS256"
 			}, (err, decoded2) => {
 				if (err) {
-					res.status(404).json({
-						message: 'No valid url'
+					res.status(401).json({
+						message: 'Esta url no es válida'
 					});
 				} else {
-					res.status(202).json({
-						message: 'Valid url'
+					Usuario.findOne({token: req.query.id}, (err, validToken) => {
+						if(validToken) {
+							res.status(200).json({
+								message: 'Url valida'
+							});
+
+						} else {
+							res.status(401).json({
+								message: 'Esta url no es válida'
+							});
+						}
 					});
 				}
 			});
-
-
 		} else {
-			res.status(404).json({
-				message: 'No valid url'
+			res.status(401).json({
+				message: 'Esta url no es válida'
 			});
 		}
 	} catch (err) {
@@ -43,45 +50,45 @@ router.post('/reset', (req, res, next)  => {
 				algorithm: "HS256"
 			}, (err, decoded2) => {
 				if (err) {
-					res.status(404).json({
-						message: 'No valid url'
+					res.status(401).json({
+						message: 'Esta url no es válida'
 					});
 				} else {
 					Usuario.findOne({
-						token: req.body.id
+						token: req.query.id
 					}, (err, user) => {
 						if(user) {
 							if(bcrypt.compareSync(req.body.password, user.password) == true) {
-								res.status(404).json({
-									message: 'Key exists already'
+								res.status(401).json({
+									message: 'Esta contraseña ya existe'
 								});
 							} else {
-								const hash = bcrypt.hashSync(req.body.password, saltRounds,7);
+								const hash = bcrypt.hashSync(req.body.password, saltRounds);
 
-								Usuario.updateOne({ _id: user._id }, { $set: { password: hash }
+								Usuario.updateOne({ _id: user._id }, { $set: { password: hash, token: '' }
 								}, (err, updated) => {
 									if(updated) {
-										res.status(202).json({
-											message: 'Updated successfully'
+										res.status(200).json({
+											message: 'Se ha actualizado correctamente'
 										});
 									} else {
-										res.status(404).json({
-											message: 'Password not updated'
+										res.status(401).json({
+											message: 'Ha habido un error al cambiar la contraseña'
 										});
 									}
 								});
 							}
 						} else {
-							res.status(404).json({
-								message: 'No valid token'
+							res.status(401).json({
+								message: 'Esta url no es válida'
 							});
 						}
 					});
 				}
 			});
 		} else {
-			res.status(404).json({
-				message: 'No valid url'
+			res.status(401).json({
+				message: 'Esta url no es válida'
 			});
 		}
 	} catch (err) {
@@ -122,31 +129,31 @@ router.post('/', (req, res, next)  => {
 								};
 								transporter.sendMail(mailOptions, function(error, info){
 									if (error){
-										res.status(404).json({
-											message: 'Mail was not sent'
+										res.status(401).json({
+											message: 'El correo no se ha podido enviar'
 										});
 
 									} else {
 										res.status(200).json({
-											message: 'Email sent'
+											message: 'El correo se ha enviado correctamente'
 										});
 									}
 								});
 							} else {
-								res.status(404).json({
-									message: 'Mail was not sent'
+								res.status(401).json({
+									message: 'El correo no se ha podido enviar'
 								});
 							}
 						});
 					}})
-				} else {
-					res.status(404).json({
-						message: 'Invalid Credentials'
-					});
-				}});
-		} catch (err) {
-			next(err);
-		}
-	});
+			} else {
+				res.status(401).json({
+					message: 'Las credenciales son incorrectas'
+				});
+			}});
+	} catch (err) {
+		next(err);
+	}
+});
 
-		module.exports = router;
+module.exports = router;
