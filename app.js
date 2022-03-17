@@ -49,6 +49,8 @@ app.use("/api/anuncios", require("./routes/index"));
 
 app.use("/api/updateProfile", require("./routes/updateProfile"));
 
+app.use("/api/deleteUser", require("./routes/deleteUser"));
+
 app.use("/", require("./routes/index"));
 
 app.use("/api/forgot-password", forgotPassword);
