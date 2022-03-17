@@ -21,6 +21,8 @@ require("./lib/connectMongoose");
 require("./models/Usuario");
 
 const app = express();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -41,6 +43,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const loginController = new LoginController();
+
+// CHAT LISTENER
+
+app.get('/api/chat', function (req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'))
+});
+
+io.on('connection', (socket) => { /* socket object may be used to send specific messages to the new connected client */
+  console.log('new client connected');
+  socket.emit('connection', null);
+});
+
+// http.listen(3002, function () {
+//   console.log('socket.io listening on *:3002');
+// });
 
 // API
 app.post("/api/authenticate", loginController.postJWT);
