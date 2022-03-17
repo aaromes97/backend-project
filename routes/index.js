@@ -32,31 +32,20 @@ router.get("/", async (req, res, next) => {
     if (typeof precio !== 'undefined') {
       console.log(precio, 'precio desde Api')
       filtro.precio = {}
-      if (precio[0] > 0 && precio[1] > precio[0] ) {
-        filtro.precio.$lte = precio[1]
+      if (precio[0] != '' ) {
+        filtro.precio.$gte = precio[0]
         console.log('paso por aqui')
-      
       }
-      // if (precio[0] !== precio) {
-      //   filtro.precio.$lte=precio[0]        
-      // }
+      if (precio[1] != '') {
+        filtro.precio.$lte=precio[1]
+      }
+  
       else {
         filtro.precio = precio
         console.log('paso por else')
     }
   }
-    // if (precio === "10-50") {
-    //   filtro.precio = between;
-    // }
-    // if (precio === "10-") {
-    //   filtro.precio = moreTen;
-    // }
-    // if (precio === "-50") {
-    //   filtro.precio = lessFifty;
-    // }
-    // if (precio === 50) {
-    //   filtro.precio = equal;
-    // }
+  
     const anuncios = await Anuncio.lista(filtro);
     res.json({ results: anuncios });
   } catch (err) {
