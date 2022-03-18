@@ -13,6 +13,17 @@ const forgotPassword = require("./routes/forgotPassword");
 var indexRouter = require("./routes/index");
 const bcrycpt = require("bcrypt");
 const Usuario = require("./models/Usuario");
+var STATIC_CHANNELS = [{
+  name: 'Global chat',
+  participants: 0,
+  id: 1,
+  sockets: []
+}, {
+  name: 'Funny',
+  participants: 0,
+  id: 2,
+  sockets: []
+}];
 
 /* jshint ignore:start */
 require("./lib/connectMongoose");
@@ -50,14 +61,53 @@ app.get('/api/chat', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'))
 });
 
-io.on('connection', (socket) => { /* socket object may be used to send specific messages to the new connected client */
+io.on('connection', (socket) => { // socket object may be used to send specific messages to the new connected client
   console.log('new client connected');
   socket.emit('connection', null);
+  socket.on('channel-join', id => {
+    console.log('channel join', id);
+    STATIC_CHANNELS.forEach(c => {
+      if (c.id === id) {
+        if (c.sockets.indexOf(socket.id) == (-1)) {
+          c.sockets.push(socket.id);
+          c.participants++;
+          io.emit('channel', c);
+        }
+      } else {
+        let index = c.sockets.indexOf(socket.id);
+        if (index != (-1)) {
+          c.sockets.splice(index, 1);
+          c.participants--;
+          io.emit('channel', c);
+        }
+      }
+    });
+
+    return id;
+  });
+
+  socket.on('send-message', message => {
+    io.emit('message', message);
+  });
+
+  socket.on('disconnect', () => {
+    STATIC_CHANNELS.forEach(c => {
+      let index = c.sockets.indexOf(socket.id);
+      if (index != (-1)) {
+        c.sockets.splice(index, 1);
+        c.participants--;
+        io.emit('channel', c);
+      }
+    });
+  });
+
 });
 
-// http.listen(3002, function () {
-//   console.log('socket.io listening on *:3002');
-// });
+app.get('/api/getChannels', (req, res) => {
+  res.json({
+    channels: STATIC_CHANNELS
+  })
+});
 
 // API
 app.post("/api/authenticate", loginController.postJWT);
