@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
     const nombre = req.query.nombre;
     const tags = req.query.tags;
     const venta = req.query.venta;
-    const precio = req.query.precio;
+    const precio = [req.query.precioMin, req.query.precioMax];
     const filtro = {};
     if (nombre) {
       filtro.nombre = new RegExp("^" + req.query.nombre, "i");
@@ -29,23 +29,29 @@ router.get("/", async (req, res, next) => {
     if (venta) {
       filtro.venta = venta;
     }
-    if (typeof precio !== 'undefined') {
-      console.log(precio, 'precio desde Api')
-      filtro.precio = {}
-      if (precio[0] != '' ) {
-        filtro.precio.$gte = precio[0]
-        console.log('paso por aqui')
-      }
-      if (precio[1] != '') {
-        filtro.precio.$lte=precio[1]
-      }
-  
-      else {
-        filtro.precio = precio
-        console.log('paso por else')
+    console.log(precio, 'precio desde Api')
+    if (precio[0] != undefined && precio[1] == undefined) {
+      filtro.precio = {};
+      filtro.precio.$gte = precio[0]
+      console.log('paso por min')
+
     }
-  }
+    if (precio[1] != undefined && precio[0] == undefined) {
+      filtro.precio = {}
+      filtro.precio.$lte = precio[1]
+      console.log('paso por max')
+    }
+
+    if (precio[0] != undefined && precio[1] != undefined) {
+      filtro.precio = {}
+      filtro.precio.$lte = precio[1]
+      filtro.precio.$gte = precio[0]
+      console.log('paso por aqui')
+
+    }
   
+     
+    
     const anuncios = await Anuncio.lista(filtro);
     res.json({ results: anuncios });
   } catch (err) {
