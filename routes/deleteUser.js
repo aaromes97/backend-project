@@ -19,7 +19,7 @@ router.put('/', (req, res, next) => {
 			});
 		} else {
 			res.status(401).json({
-				message: '11Ha habido un error al eliminar la cuenta'
+				message: 'Ha habido un error al eliminar la cuenta'
 			});
 		}
 	} catch (err){
