@@ -29,7 +29,7 @@ async function initUsuarios() {
 		{   
 			name: 'prueba2',
 			email: 'user@example.com',
-			password: await Usuario.hashPassword('5678')
+			password: await Usuario.hashPassword('5678'),
 			token: ''
 		}
 	]);
