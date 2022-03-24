@@ -30,6 +30,7 @@ var server = http.createServer(app);
 // CHAT
 
 const io = socket(server);
+io.path("/socket.io/")
 
 //initializing the socket io connection 
 io.on("connection", (socket) => {
