@@ -8,7 +8,17 @@ const saltRounds = 10;
 const usuarioSchema = mongoose.Schema({
     name: {type: String, require:true, unique:true},
     email: { type: String, require:true, unique: true },
-    password: String
+    password: {type: String,
+    required: true,
+    trim: true,
+    minlength: 7,
+
+    validate(value) {
+        if (value.toLowerCase().includes('password')) {
+            throw new Error('Canno contain the string "Password".')
+    }
+    }
+    }
 });
 
 usuarioSchema.statics.hashPassword = function (passwordEnClaro) {

@@ -15,11 +15,6 @@ const bcrycpt = require("bcrypt");
 const Usuario = require('./models/Usuario');
 
 
-
-
-
-
-
 /* jshint ignore:start */
 require("./lib/connectMongoose");
 /* jshint ignore:end */
@@ -59,10 +54,11 @@ app.use("/api/forgot-password", forgotPassword);
 app.post('/api/register', (req, res) => {
   const { name, email, password } = req.body;
   const usuario = new Usuario({ name, email, password });
-  usuario.save(err => {
+  usuario.save((err) => {
     if (err) {
       res.status(500).json({message: 'Error al resgistrar el usuario/ Usuario ya existente'})
-    } else {
+    } 
+    else {
       res.status(200).json({message: 'Usuario Registrado con exito'});
     }
   })

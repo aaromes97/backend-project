@@ -15,6 +15,10 @@ const Anuncio = require("../models/Anuncio");
 /* GET home page. */
 router.get("/", async (req, res, next) => {
   try {
+    const start = parseInt(req.query.start) || 0
+    const limit = parseInt(req.query.limit) || 1000 // nuestro api devuelve max 1000 registros
+    const sort = req.query.sort || '_id'
+    const includeTotal = req.query.includeTotal === 'true'
     const nombre = req.query.nombre;
     const tags = req.query.tags;
     const venta = req.query.venta;
@@ -52,7 +56,7 @@ router.get("/", async (req, res, next) => {
   
      
     
-    const anuncios = await Anuncio.lista(filtro);
+    const anuncios = await Anuncio.lista(filtro, start, limit, sort, includeTotal);
     res.json({ results: anuncios });
   } catch (err) {
     next(err);
