@@ -6,10 +6,7 @@ const chatsSchema = mongoose.Schema({
     idAnuncio: String,
     vendor: String,
     comprador: String,
-    mensajes: [{
-        username: String,
-        text: String,
-    }],
+    mensajes: [Object],
     fecha: { type: Date, default: Date.now },
 });
 chatsSchema.statics.lista = function (request) {
