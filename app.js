@@ -54,6 +54,9 @@ app.use("/", require("./routes/index"));
 
 app.use("/api/forgot-password", forgotPassword);
 
+app.use("/api/chats", require("./routes/chats"));
+
+
 // API
 app.post("/api/register", (req, res) => {
   const { name, email, password } = req.body;
