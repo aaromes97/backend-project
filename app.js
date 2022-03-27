@@ -56,6 +56,7 @@ app.use("/api/forgot-password", forgotPassword);
 
 app.use("/api/chats", require("./routes/chats"));
 
+app.use("/api/messages", require("./routes/messages"));
 
 // API
 app.post("/api/register", (req, res) => {
@@ -63,11 +64,9 @@ app.post("/api/register", (req, res) => {
   const usuario = new Usuario({ name, email, password });
   usuario.save((err) => {
     if (err) {
-      res
-        .status(500)
-        .json({
-          message: "Error al registrar el usuario/ Usuario ya existente",
-        });
+      res.status(500).json({
+        message: "Error al registrar el usuario/ Usuario ya existente",
+      });
     } else {
       res.status(200).json({ message: "Usuario Registrado con exito" });
     }
