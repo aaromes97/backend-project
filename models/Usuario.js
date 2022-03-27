@@ -13,9 +13,12 @@ const usuarioSchema = mongoose.Schema({
     trim: true,
     minlength: 7,
 
-    validate(value) {
+        validate(value) {
+        console.log(value.length)
         if (value.toLowerCase().includes('password')) {
             throw new Error('Canno contain the string "Password".')
+        } if (value.length < 7) {
+        throw new Error('Debe contener al menos 7 caracteres')
     }
     }
     }
