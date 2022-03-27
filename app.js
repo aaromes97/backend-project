@@ -17,6 +17,7 @@ const app = express();
 
 app.use(express());
 
+
 /* jshint ignore:start */
 require("./lib/connectMongoose");
 /* jshint ignore:end */
@@ -62,13 +63,20 @@ app.post("/api/register", (req, res) => {
   const usuario = new Usuario({ name, email, password });
   usuario.save((err) => {
     if (err) {
-      res
-        .status(500)
-        .json({
-          message: "Error al registrar el usuario/ Usuario ya existente",
-        });
-    } else {
-      res.status(200).json({ message: "Usuario Registrado con exito" });
+
+    //   res
+    //     .status(500)
+    //     .json({
+    //       message: "Error al registrar el usuario/ Usuario ya existente",
+    //     });
+    // } else {
+    //   res.status(200).json({ message: "Usuario Registrado con exito" });
+
+      res.status(500).json({message: err.message})
+    } 
+    else {
+      res.status(200).json({message: 'Usuario Registrado con exito'});
+
     }
   });
 });
