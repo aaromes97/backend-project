@@ -28,10 +28,10 @@ router.post("/", async (req, res, next) => {
 });
 
 //GET /api/chats/idAnuncio (chats)
-router.get("/:id", async (req, res, next) => {
+router.get("/:id/:username", async (req, res, next) => {
     try {
         const _id = req.params.id;
-        const comprador = req.body.comprador
+        const comprador = req.params.username
         const chats = await Chats.find({ idAnuncio: _id, comprador: comprador });
         if (chats.length) {
             res.json({ results: chats });
@@ -44,12 +44,13 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //PUT /api/chats/idAnuncio
-router.put("/:id", async (req, res, next) => {
+router.put("/:id/:buyer", async (req, res, next) => {
     try {
         const _id = req.params.id;
+        const comprador = req.params.buyer;
         chatsData = req.body;
         const chatActualizado = await Chats.findOneAndUpdate(
-            { idAnuncio: _id },
+            { idAnuncio: _id, comprador: comprador },
             chatsData,
             {
                 new: true, //si no lo ponemos nos devuelve el dato sin actualizar
