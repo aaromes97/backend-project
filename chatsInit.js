@@ -47,7 +47,7 @@ async function initChats() {
           text: "Estoy interesado",
         },
         {
-          username: "admin",
+          username: "dre",
           text: "Te paso mi telf",
         },
       ],
