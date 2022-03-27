@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 //Definimos el esquema de Chats
 const chatsSchema = mongoose.Schema({
   idAnuncio: String,
-  nombre: String,
-  vendor: String,
+  nombreAnuncio: String,
+  vendedor: String,
   comprador: String,
   mensajes: [Object],
   fecha: { type: Date, default: Date.now },
