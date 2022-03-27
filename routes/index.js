@@ -16,10 +16,14 @@ const Anuncio = require("../models/Anuncio");
 /* GET home page. */
 router.get("/", async (req, res, next) => {
   try {
+    const start = parseInt(req.query.start) || 0
+    const limit = parseInt(req.query.limit) || 1000 // nuestro api devuelve max 1000 registros
+    const sort = req.query.sort || '_id'
+    const includeTotal = req.query.includeTotal === 'true'
     const nombre = req.query.nombre;
     const tags = req.query.tags;
     const venta = req.query.venta;
-    const precio = req.query.precio;
+    const precio = [req.query.precioMin, req.query.precioMax];
     const filtro = {};
     if (nombre) {
       filtro.nombre = new RegExp("^" + req.query.nombre, "i");
@@ -30,19 +34,30 @@ router.get("/", async (req, res, next) => {
     if (venta) {
       filtro.venta = venta;
     }
-    if (precio === "10-50") {
-      filtro.precio = between;
+    console.log(precio, 'precio desde Api')
+    if (precio[0] != undefined && precio[1] == undefined) {
+      filtro.precio = {};
+      filtro.precio.$gte = precio[0]
+      console.log('paso por min')
+
     }
-    if (precio === "10-") {
-      filtro.precio = moreTen;
+    if (precio[1] != undefined && precio[0] == undefined) {
+      filtro.precio = {}
+      filtro.precio.$lte = precio[1]
+      console.log('paso por max')
     }
-    if (precio === "-50") {
-      filtro.precio = lessFifty;
+
+    if (precio[0] != undefined && precio[1] != undefined) {
+      filtro.precio = {}
+      filtro.precio.$lte = precio[1]
+      filtro.precio.$gte = precio[0]
+      console.log('paso por aqui')
+
     }
-    if (precio === 50) {
-      filtro.precio = equal;
-    }
-    const anuncios = await Anuncio.lista(filtro);
+  
+     
+    
+    const anuncios = await Anuncio.lista(filtro, start, limit, sort, includeTotal);
     res.json({ results: anuncios });
   } catch (err) {
     next(err);
@@ -65,6 +80,7 @@ router.post('/', upload.single('foto'), async (req, res, next) => {
     next(err);
   }
 });
+
 
 //GET /api/id
 router.get('/:id', async (req, res, next) => {

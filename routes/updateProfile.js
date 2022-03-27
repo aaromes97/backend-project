@@ -33,7 +33,8 @@ router.put('/', (req, res, next)  => {
 					}}, (err, emailValid) => {
 						if(emailValid) {
 							res.status(200).json({
-								message: 'Se ha actualizado correctamente'
+								message: 'Se ha actualizado correctamente',
+								data: {user: user, email: email}
 							});
 						} else {
 							res.status(401).json({

@@ -8,8 +8,19 @@ const saltRounds = 10;
 const usuarioSchema = mongoose.Schema({
     name: {type: String, require:true, unique:true},
     email: { type: String, require:true, unique: true },
-    password: String,
-	token: String
+    password: {type: String,
+    required: true,
+    trim: true,
+    minlength: 7,
+        validate(value) {
+        console.log(value.length)
+        if (value.toLowerCase().includes('password')) {
+            throw new Error('Canno contain the string "Password".')
+        } if (value.length < 7) {
+        throw new Error('Debe contener al menos 7 caracteres')
+    }
+    }
+    }
 });
 
 usuarioSchema.statics.hashPassword = function (passwordEnClaro) {

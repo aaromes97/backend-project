@@ -15,14 +15,17 @@ const UserSchema = new moongose.Schema({
 });
 
 UserSchema.pre('save', function (next) {
+  
     if (this.isNew || this.isModified('password')) {
         const document = this;
         bcrycpt.hash(document.password, saltRounds, (err, hashedPassword) => {
             if (err) {
                 next(err);
                 
-            } else {
-                document.password = hashedPassword;
+            }
+           
+            else {
+                document.password = hashedPassword ;
                 next();
             }
             
