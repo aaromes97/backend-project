@@ -26,12 +26,12 @@ async function initUsuarios() {
 			password: await Usuario.hashPassword('1234'),
 			token: ''
 		},
-		{   
+		{
 			name: 'prueba2',
 			email: 'user@example.com',
-			password: await Usuario.hashPassword('5678')
+			password: await Usuario.hashPassword('5678'),
 			token: ''
 		}
 	]);
-	console.log(`insertados ${ result.length} usuarios`)
+	console.log(`insertados ${result.length} usuarios`)
 }
