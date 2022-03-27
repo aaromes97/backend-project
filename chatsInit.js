@@ -19,23 +19,23 @@ async function initChats() {
   const { deletedCount } = await Chats.deleteMany();
   console.log(`Eliminados ${deletedCount} chats.`);
   //insertamos Usuarios de prueba
-  const result = await Chats.insertMany([
-    {
-      idAnuncio: "6237651a83f3b22973adaeb9",
-      nombreAnuncio: "ola",
-      vendedor: "pepe",
-      comprador: "admin",
-      mensajes: [
-        {
-          username: "pepe",
-          text: "Estoy interesado",
-        },
-        {
-          username: "admin",
-          text: "Te paso mi telf",
-        },
-      ],
-    },
-  ]);
+  //   const result = await Chats.insertMany([
+  //     // {
+  //     //   idAnuncio: "6237651a83f3b22973adaeb9",
+  //     //   nombreAnuncio: "ola",
+  //     //   vendedor: "pepe",
+  //     //   comprador: "admin",
+  //     //   mensajes: [
+  //     //     {
+  //     //       username: "pepe",
+  //     //       text: "Estoy interesado",
+  //     //     },
+  //     //     {
+  //     //       username: "admin",
+  //     //       text: "Te paso mi telf",
+  //     //     },
+  //     //   ],
+  //     // },
+  //   ]);
   console.log(`insertados ${result.length} chats`);
 }
