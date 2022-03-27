@@ -22,7 +22,7 @@ async function initChats() {
     const result = await Chats.insertMany([
         {
             idAnuncio: "622f84642087303a606bf898",
-            vendor: "pepe",
+            vendedor: "pepe",
             comprador: "admin",
             mensajes: [
                 {

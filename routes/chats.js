@@ -33,7 +33,11 @@ router.get('/:id', async (req, res, next) => {
     try {
         const _id = req.params.id;
         const chats = await Chats.find({ idAnuncio: _id });
-        res.json({ results: chats });
+        if (chats.length) {
+            res.json({ results: chats });
+        } else {
+            res.json({ results: null })
+        }
     } catch (err) {
         next(err);
     }
