@@ -10,7 +10,6 @@ const jwtAuth = require("./lib/jwtAuthMiddleware");
 const MongoStore = require("connect-mongo");
 const cors = require("cors");
 const forgotPassword = require("./routes/forgotPassword");
-var indexRouter = require("./routes/index");
 const bcrycpt = require("bcrypt");
 const Usuario = require("./models/Usuario");
 const app = express();
@@ -48,17 +47,17 @@ app.post("/api/authenticate", loginController.postJWT);
 
 app.use("/api/anuncios", require("./routes/index"));
 
-app.use("/api/updateProfile", require("./routes/updateProfile"));
+app.use("/api/anuncios", jwtAuth, require("./routes/privateIndex"));
 
-app.use("/api/deleteUser", require("./routes/deleteUser"));
+app.use("/api/updateProfile", jwtAuth, require("./routes/updateProfile"));
 
-app.use("/", require("./routes/index"));
+app.use("/api/deleteUser", jwtAuth, require("./routes/deleteUser"));
 
 app.use("/api/forgot-password", forgotPassword);
 
-app.use("/api/chats", require("./routes/chats"));
+app.use("/api/chats", jwtAuth, require("./routes/chats"));
 
-app.use("/api/messages", require("./routes/messages"));
+app.use("/api/messages", jwtAuth, require("./routes/messages"));
 
 // API
 app.post("/api/register", (req, res) => {
