@@ -34,7 +34,7 @@ router.get("/", async (req, res, next) => {
     if (venta) {
       filtro.venta = venta;
     }
-    console.log(precio, 'precio desde Api')
+    // console.log(precio, 'precio desde Api')
     if (precio[0] != undefined && precio[1] == undefined) {
       filtro.precio = {};
       filtro.precio.$gte = precio[0]
