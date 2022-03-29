@@ -21,12 +21,16 @@ router.get("/", async (req, res, next) => {
     const sort = req.query.sort || '_id'
     const includeTotal = req.query.includeTotal === 'true'
     const nombre = req.query.nombre;
+    const autor = req.query.autor;
     const tags = req.query.tags;
     const venta = req.query.venta;
     const precio = [req.query.precioMin, req.query.precioMax];
     const filtro = {};
     if (nombre) {
       filtro.nombre = new RegExp("^" + req.query.nombre, "i");
+    }
+    if (autor) {
+      filtro.autor = autor;
     }
     if (tags) {
       filtro.tags = tags;
