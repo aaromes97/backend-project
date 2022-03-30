@@ -67,5 +67,4 @@ router.put('/:id', upload.single('foto'), async (req, res, next) => {
     next(err);
   }
 })
-
 module.exports = router;
