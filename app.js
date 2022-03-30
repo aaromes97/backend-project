@@ -66,7 +66,7 @@ app.post("/api/register", (req, res) => {
   usuario.save((err) => {
     if (err) {
       res.status(500).json({
-        message: "Error al registrar el usuario/ Usuario ya existente",
+        message: "Error al registrar el usuario/ Usuario ya existente o contraseña con menos de 7 caracteres",
       });
     } else {
       res.status(200).json({ message: "Usuario Registrado con exito" });
