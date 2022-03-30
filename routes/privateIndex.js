@@ -48,9 +48,11 @@ router.put('/:id', upload.single('foto'), async (req, res, next) => {
     const _id = req.params.id;
     if (req.file) {
       const fotoPath = '/images/anuncios/' + req.file.originalname;
-      anunciosData = { ...req.body, foto: fotoPath };
+      const tags = req.body.tags.split(",")
+      anunciosData = { ...req.body, foto: fotoPath, tags };
     } else {
-      anunciosData = req.body;
+      const tags = req.body.tags.split(",")
+      anunciosData = { ...req.body, tags };
     }
     const anuncioActualizado = await Anuncio.findOneAndUpdate({ _id: _id }, anunciosData, {
       new: true //si no lo ponemos nos devuelve el dato sin actualizar
